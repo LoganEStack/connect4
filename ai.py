@@ -30,7 +30,7 @@ class AIPlayer:
         elif self.difficulty == "hard":
             depth = 4
         elif self.difficulty == "very hard":
-            depth = 4
+            depth = 6
         else:
             raise ValueError("Difficulty of AI opponent must be set to either easy, medium, or hard.")
 
