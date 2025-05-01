@@ -1,10 +1,6 @@
 <!-- INTRODUCTION -->
-<h1 align="center">Connect 4</h1>
-  <p align="center">
-    A game of connect 4 versus an artificial intelligence using the Minimax algorithm.
-    <br />
-  </p>
-</div>
+# Connect 4
+A game of connect 4 versus an artificial intelligence using the Minimax algorithm.
 
 
 <!-- ABOUT -->
@@ -14,7 +10,6 @@ or an AI opponent. The opponent has multiple levels of difficulty and relies on 
 in order to decide its moves.
 
 ### Built With
-
 [![Python][Python]][python-url]
 
 
@@ -43,11 +38,9 @@ Adjust the difficulty by changing the difficulty parameter in the AIPlayer insta
 ## Getting Started
 
 ### Prerequisites
-
 Requires Python3 to run.
 
 ### Installation
-
 1. Clone the repo
    ```sh
    git clone https://github.com/LoganEStack/connect4.git
@@ -60,21 +53,13 @@ Requires Python3 to run.
 
 <!-- FILES -->
 ## Files
-
-### main.py
-Entry point to the program.
-
-### ai.py
-Computer player logic.
-
-### player.py
-Logic for the human player to make a move.
-
-### board.py
-Data and logic for the board state.
-
-### minimax.py
-Logic for the Minimax algorithm.
+| File        | Description
+| ----------- | ------------------------
+| main.py     | Entry point to the program.
+| ai.py       | Computer player logic.
+| player.py   | Logic for the human player to make a move.
+| board.py    | Data and logic for the board state.
+| minimax.py  | Logic for the Minimax algorithm.
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
