@@ -25,6 +25,7 @@ Replace the AIPlayer object with another HumanPlayer object in main.py to play t
 Adjust the difficulty by changing the difficulty parameter in the AIPlayer instantiation to
 "easy", "medium", "hard", or "very hard".
 
+
 <!-- MINIMAX -->
 ## Minimax Algorithm
 
@@ -33,6 +34,8 @@ Adjust the difficulty by changing the difficulty parameter in the AIPlayer insta
 ### Alpha-beta Pruning
 
 ### On Connect 4 Being Solved
+Connect 4 is a strongly solved game. This means that an an algorithm exists that can determine the optimal move (or optimal series of moves) for each player from any given position in the game, assuming both players are playing perfectly. Technically, the first player is guarenteed a win if played perfectly, and the second player is guarenteed at least a tie. Unfortunately, Connect 4 has roughly 4.5 trillion possible board states. This would require incredibly deep searches, or a massive table of solved moves in order to properly implement. Therefore, it is computationally unrealistic, and a depth-limited minimax algorithm with alpha-beta pruning is better suited for our purposes. While not mathematically perfect, it's still plenty capable of beating users (me) on higher difficulty settings.
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
