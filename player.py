@@ -14,17 +14,7 @@ class Player:
         self.name = name
 
     def get_move(self, board: object) -> int:
-        while True:
-            try:
-                column = int(input(f"{self.name}'s turn ({self.piece}): Choose column (0-6): "))
-            except ValueError:
-                print("Invalid move. Please enter an integer between 0 and 6 inclusive.")
-                continue
-            except KeyboardInterrupt:
-                raise KeyboardInterrupt("Exiting the game.")
-                
-            if board.is_valid_move(column):
-                break
-            print("Invalid move. Please enter an integer between 0 and 6 inclusive.")
-        return column
-    
+        # This method is not used for GUI input
+        # Input is handled in the Game class's handle_events() method
+        # This is kept for compatibility with the AI class
+        pass
