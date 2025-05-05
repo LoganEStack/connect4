@@ -86,6 +86,7 @@ Connect 4 is a strongly solved game. This means that an an algorithm exists that
 | game.py     | GUI and logic for game.
 | ai.py       | Computer player.
 | player.py   | Human player.
+| board.py    | Data and logic for the board state.
 | minimax.py  | Logic for the Minimax algorithm.
 
 
