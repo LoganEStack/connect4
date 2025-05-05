@@ -20,6 +20,7 @@ class Game:
     FPS = 60
     WINDOW_WIDTH = 700
     WINDOW_HEIGHT = 700
+    BOARD_OUTLINE_COLOR = (0, 0, 0)  # Black
     BOARD_COLOR = (255, 200, 0)  # Yellow
     EMPTY_COLOR = (240, 235, 230) # Off-white
     PLAYER1_COLOR = (255, 0, 0)  # Red
@@ -44,6 +45,15 @@ class Game:
             "O": Game.PLAYER2_COLOR,
             " ": Game.EMPTY_COLOR
         }
+
+        # Animation variables
+        self.animating = False
+        self.anim_piece = None
+        self.anim_col = None
+        self.anim_row = None
+        self.anim_y = 0
+        self.anim_speed = 15  # Pixels per frame
+        self.anim_target_y = 0
 
     def run(self):
         """Start the game."""
@@ -71,7 +81,7 @@ class Game:
                     self.handle_player_move(event.pos[0])
             
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:  # Reset game with 'r' key
+                if event.key == pygame.K_r and not self.animating:  # Reset game with 'r' key
                     self.reset_game()
                 if event.key == pygame.K_q or event.key == pygame.K_ESCAPE:  # Quit with 'q' or ESC
                     pygame.quit()
@@ -79,8 +89,34 @@ class Game:
 
     def update(self):
         """Handle computer's move."""
+        if self.animating:
+            self.update_animation()
         if not self.game_over and self.players[self.turn].__class__.__name__ == "AIPlayer":
             self.handle_ai_move()
+
+    def update_animation(self):
+        # Move the piece down
+        self.anim_y += self.anim_speed
+        
+        # Check if animation is complete
+        if self.anim_y >= self.anim_target_y:
+            # Animation complete, place the piece
+            self.anim_y = self.anim_target_y
+            self.animating = False
+            
+            self.board.drop_piece(self.anim_row, self.anim_col, self.anim_piece)
+            
+            # Check if this move results in a win
+            if self.board.winning_move(self.anim_piece):
+                self.game_over = True
+                self.winner = self.players[self.turn].name
+            # Check if the board is full (draw)
+            elif self.board.is_full():
+                self.game_over = True
+                self.winner = "draw"
+            else:
+                # Change turns
+                self.turn = (self.turn + 1) % 2
 
     def draw(self):
         """Draw elements to screen."""
@@ -100,11 +136,21 @@ class Game:
         """Draws game board to screen."""
         board_width = Game.SQUARE_SIZE * Board.COLUMNS
         board_height = Game.SQUARE_SIZE * Board.ROWS
+
+        pygame.draw.rect(
+            self.screen, 
+            Game.BOARD_OUTLINE_COLOR,
+            (Game.BOARD_OFFSET_X - 5, Game.BOARD_OFFSET_Y - 5, board_width + 10, board_height + 10),
+            border_radius=10
+        )
+        
         pygame.draw.rect(
             self.screen, 
             Game.BOARD_COLOR, 
-            (Game.BOARD_OFFSET_X, Game.BOARD_OFFSET_Y, board_width, board_height)
+            (Game.BOARD_OFFSET_X, Game.BOARD_OFFSET_Y, board_width, board_height),
+            border_radius=8
         )
+        
         
         # Draw the grid and pieces
         for row in range(Board.ROWS):
@@ -120,6 +166,16 @@ class Game:
                     (x, y),
                     Game.RADIUS
                 )
+
+        # Draw the animated piece
+        if self.animating:
+            x = self.anim_col * Game.SQUARE_SIZE + Game.SQUARE_SIZE // 2 + Game.BOARD_OFFSET_X
+            pygame.draw.circle(
+                self.screen,
+                self.piece_colors[self.anim_piece],
+                (x, self.anim_y),
+                Game.RADIUS
+            )
 
     def draw_hover_piece(self):
         """Draw the piece at the mouse x-position when it's the player's turn"""
@@ -168,17 +224,13 @@ class Game:
         """Place a piece on the board and determine if that results in a game over."""
         row = self.board.get_next_open_row(col)
         
-        if row is not None:
-            self.board.drop_piece(row, col, self.players[self.turn].piece)
-            
-            if self.board.winning_move(self.players[self.turn].piece):
-                self.game_over = True
-                self.winner = self.players[self.turn].name
-            elif self.board.is_full():
-                self.game_over = True
-                self.winner = "draw"
-            else:
-                self.turn = (self.turn + 1) % 2
+        if row is not None and not self.animating:
+            self.animating = True
+            self.anim_piece = self.players[self.turn].piece
+            self.anim_col = col
+            self.anim_row = row
+            self.anim_y = Game.SQUARE_SIZE // 2  # Start at the top
+            self.anim_target_y = row * Game.SQUARE_SIZE + Game.SQUARE_SIZE // 2 + Game.BOARD_OFFSET_Y
 
     def reset_game(self):
         """Resets the game."""
@@ -186,3 +238,4 @@ class Game:
         self.turn = random.randint(0, 1)
         self.game_over = False
         self.winner = None
+        self.animating = False
