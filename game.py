@@ -20,10 +20,10 @@ class Game:
     FPS = 60
     WINDOW_WIDTH = 700
     WINDOW_HEIGHT = 700
-    BOARD_COLOR = (0, 0, 255)  # Blue
-    EMPTY_COLOR = (0, 0, 0)    # Black
+    BOARD_COLOR = (255, 200, 0)  # Yellow
+    EMPTY_COLOR = (240, 235, 230) # Off-white
     PLAYER1_COLOR = (255, 0, 0)  # Red
-    PLAYER2_COLOR = (255, 255, 0)  # Yellow
+    PLAYER2_COLOR = (0, 0, 0)  # Black
     SQUARE_SIZE = 100
     RADIUS = int(SQUARE_SIZE/2 - 5)
     
@@ -47,8 +47,6 @@ class Game:
 
     def run(self):
         """Start the game."""
-        pygame.init()
-        pygame.display.set_caption('Connect 4')
         self.screen = pygame.display.set_mode((Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT))
         self.font = pygame.font.SysFont('Arial', 32)
         self.clock = pygame.time.Clock()
@@ -86,7 +84,7 @@ class Game:
 
     def draw(self):
         """Draw elements to screen."""
-        self.screen.fill((0, 0, 0)) # Clear screen with black
+        self.screen.fill((Game.EMPTY_COLOR)) # Clear screen with black
         self.draw_board()
         
         # Draw current player's piece at mouse position if it's player's turn and game is not over

@@ -5,10 +5,8 @@ class Player:
     Attributes:
         piece (str): The player's game piece token.
         name (str): The player's name.
-
-    Methods:
-        get_move(): Gets the column selected by the player.
     """
+    
     def __init__(self, piece, name="Player 1"):
         self.piece = piece
         self.name = name

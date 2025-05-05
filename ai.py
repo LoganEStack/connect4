@@ -12,10 +12,8 @@ class AIPlayer:
         opponent_piece (str): The opposing player's piece.
         difficulty (str): The difficulty level of the computer, affecting depth of simulation.
         name (str): Name of the computer.
-
-    Methods:
-        get_move(): Gets the column selected by the computer based on difficulty level.
     """
+    
     def __init__(self, piece, difficulty="hard"):
         self.piece = piece
         self.opponent_piece = "X" if piece == "O" else "O"
